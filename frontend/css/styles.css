@@ -1,0 +1,493 @@
+/* css/styles.css
+   Campus Copilot AI — academic workspace design system.
+   Signature motif: a "margin rule" (thin accent line + dot) echoing a
+   page margin annotation, and a highlighter-yellow edge marking the
+   active tool card, like a tabbed page in a notebook. */
+
+/* ---------- Design tokens ---------- */
+:root {
+  /* Color */
+  --ink: #1a1f2b;
+  --ink-soft: #4a5164;
+  --paper: #fafaf8;
+  --paper-raised: #ffffff;
+  --border: #e2e4e9;
+  --index-blue: #2e4374;
+  --index-blue-hover: #263a63;
+  --highlighter: #f5c842;
+  --highlighter-soft: #fdf3d7;
+  --success: #2f855a;
+  --success-soft: #e7f4ee;
+  --error: #b3441e;
+  --error-soft: #fbeae3;
+
+  /* Type */
+  --font-display: "Lora", Georgia, serif;
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Misc */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow-card: 0 1px 2px rgba(26, 31, 43, 0.04), 0 2px 8px rgba(26, 31, 43, 0.04);
+  --transition: 160ms ease;
+}
+
+/* ---------- Reset & base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+textarea,
+input {
+  font-family: inherit;
+}
+
+/* Visible keyboard focus everywhere, using the highlighter accent —
+   this is a hard accessibility requirement, not optional polish. */
+:focus-visible {
+  outline: 2px solid var(--highlighter);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Layout ---------- */
+.workspace {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-7);
+}
+
+.workspace-header {
+  margin-bottom: var(--space-6);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brand-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--highlighter);
+  box-shadow: 0 0 0 4px var(--highlighter-soft);
+  flex-shrink: 0;
+}
+
+.workspace-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.85rem;
+  letter-spacing: -0.01em;
+}
+
+.workspace-header p {
+  margin: var(--space-2) 0 0 22px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.workspace-main {
+  display: grid;
+  grid-template-columns: 260px 1fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* ---------- Signature: the margin mark ---------- */
+.panel-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.margin-mark {
+  width: 3px;
+  height: 16px;
+  background: var(--index-blue);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.panel-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- Tool selector panel ---------- */
+.tool-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  text-align: left;
+  background: var(--paper-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.tool-card:hover {
+  border-color: #c8ccd6;
+}
+
+.tool-card:active {
+  transform: scale(0.99);
+}
+
+.tool-card__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.tool-card__desc {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* Active tool: highlighter-yellow edge, like a tabbed notebook page */
+.tool-card[aria-pressed="true"] {
+  border-left-color: var(--highlighter);
+  background: var(--highlighter-soft);
+}
+
+/* ---------- Input panel ---------- */
+.input-panel,
+.output-panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-card);
+}
+
+#content-input {
+  flex: 1;
+  min-height: 300px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+#content-input:focus-visible {
+  border-color: var(--index-blue);
+  outline-offset: 0;
+}
+
+#content-input::placeholder {
+  color: #a3a8b4;
+}
+
+.input-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+kbd {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+}
+
+/* ---------- Generate button ---------- */
+.generate-btn {
+  position: relative;
+  background: var(--index-blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: var(--index-blue-hover);
+}
+
+.generate-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.generate-btn:disabled {
+  background: #9aa3b8;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.generate-btn.is-loading .spinner {
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Output panel ---------- */
+.output-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.secondary-btn {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.secondary-btn:hover:not(:disabled) {
+  background: #f0f1f4;
+}
+
+.secondary-btn:disabled {
+  color: #b3b8c4;
+  cursor: not-allowed;
+}
+
+.secondary-btn.is-success {
+  background: var(--success-soft);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.output-body {
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+}
+
+/* Empty state: shown before the first generation */
+.output-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  color: var(--ink-soft);
+  text-align: left;
+}
+
+.output-empty p {
+  margin: 0;
+}
+
+.output-empty__hint {
+  font-size: 0.85rem;
+  color: #a3a8b4;
+}
+
+.output-text {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  animation: fade-in 200ms ease;
+}
+
+.output-text.is-visible {
+  display: block;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Headings and checklist items within streamed output, produced by
+   output.js's lightweight formatter (see formatOutput()) */
+.output-heading {
+  display: block;
+  font-weight: 700;
+  color: var(--index-blue);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-1);
+}
+
+.output-text > .output-heading:first-child {
+  margin-top: 0;
+}
+
+.output-checklist-item {
+  display: block;
+  padding-left: 22px;
+  position: relative;
+}
+
+.output-checklist-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 3px;
+}
+
+/* Blinking cursor while a response is actively streaming */
+.output-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--index-blue);
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Error notice, appended after any partial output (see output.js) */
+.output-error-notice {
+  display: block;
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--error-soft);
+  border-left: 3px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .workspace-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .workspace {
+    padding: var(--space-4);
+  }
+
+  /* Tool selector becomes a horizontal scrollable row of chips instead
+     of stacking three full-width cards above the actual work area. */
+  .tool-panel {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: var(--space-2);
+    padding-bottom: var(--space-1);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tool-card {
+    flex: 0 0 200px;
+    border-left: 1px solid var(--border);
+    border-bottom: 3px solid transparent;
+  }
+
+  .tool-card[aria-pressed="true"] {
+    border-left-color: var(--border);
+    border-bottom-color: var(--highlighter);
+  }
+
+  #content-input,
+  .output-body,
+  .output-empty {
+    min-height: 220px;
+  }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Copilot AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="workspace">
+    <header class="workspace-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <h1>Campus Copilot AI</h1>
+      </div>
+      <p>Your academic workspace for smarter studying</p>
+    </header>
+
+    <main class="workspace-main">
+      <!-- Tool selector: pick which academic tool to use -->
+      <aside class="tool-panel" role="group" aria-label="Choose a tool">
+        <button class="tool-card" data-tool="summarizer" aria-pressed="false">
+          <span class="tool-card__title">Smart Notes Summarizer</span>
+          <span class="tool-card__desc">Summary, key concepts, exam points, revision checklist</span>
+        </button>
+        <button class="tool-card" data-tool="explainer" aria-pressed="false">
+          <span class="tool-card__title">Concept Explainer</span>
+          <span class="tool-card__desc">Beginner + college-level explanations, analogy, common mistakes</span>
+        </button>
+        <button class="tool-card" data-tool="quiz" aria-pressed="false">
+          <span class="tool-card__title">Quiz Generator</span>
+          <span class="tool-card__desc">MCQs, short & long answer questions, answer key</span>
+        </button>
+      </aside>
+
+      <!-- Input: paste academic content here -->
+      <section class="input-panel">
+        <div class="panel-heading">
+          <span class="margin-mark" aria-hidden="true"></span>
+          <label for="content-input" class="panel-label">Paste your content</label>
+        </div>
+        <textarea
+          id="content-input"
+          placeholder="Paste your study notes, a topic to explain, or content to quiz yourself on..."
+        ></textarea>
+        <button id="generate-btn" class="generate-btn">
+          <span class="generate-btn__label">Generate</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+        <p class="input-hint">Tip: press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to generate</p>
+      </section>
+
+      <!-- Output: streamed AI result appears here -->
+      <section class="output-panel">
+        <div class="output-panel__header">
+          <div class="panel-heading">
+            <span class="margin-mark" aria-hidden="true"></span>
+            <span class="panel-label">Result</span>
+          </div>
+          <div class="output-actions">
+            <button id="copy-btn" class="secondary-btn" disabled>Copy</button>
+            <button id="download-btn" class="secondary-btn" disabled>Download</button>
+          </div>
+        </div>
+
+        <div class="output-body">
+          <div id="output-empty" class="output-empty">
+            <p>Your generated study material will appear here.</p>
+            <p class="output-empty__hint">Pick a tool, paste your content, and hit Generate.</p>
+          </div>
+          <div id="output-text" class="output-text" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load order matters: config first, then the low-level SSE helper,
+       then UI modules, then generator.js (which depends on all of them). -->
+  <script src="js/config.js"></script>
+  <script src="js/sse.js"></script>
+  <script src="js/toolSelector.js"></script>
+  <script src="js/output.js"></script>
+  <script src="js/generator.js"></script>
+  <script>
+    // Initialize all modules once the DOM is ready.
+    document.addEventListener("DOMContentLoaded", () => {
+      ToolSelector.init();
+      Output.init();
+      Generator.init();
+    });
+  </script>
+</body>
+</html>

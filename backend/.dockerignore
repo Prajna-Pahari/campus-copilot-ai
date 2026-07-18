@@ -1,0 +1,25 @@
+# .dockerignore
+#
+# Keeps unnecessary or sensitive files out of the Docker build context,
+# so they can never end up copied into the image.
+
+# Installed dependencies are always built fresh INSIDE the container
+# (for the container's OS/architecture) — a local copy would be wrong.
+node_modules
+
+# The real secrets file. Must never enter the image. Configuration is
+# injected at `docker run` time instead (see Dockerfile comments).
+.env
+
+# Version control history has no purpose inside a running container and
+# would needlessly bloat the build context.
+.git
+.gitignore
+
+# npm debug output, irrelevant to the built image.
+npm-debug.log*
+
+# The Docker build instructions themselves don't need to exist inside
+# the image they produce.
+Dockerfile
+.dockerignore

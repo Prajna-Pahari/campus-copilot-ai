@@ -1,0 +1,16 @@
+# Normalize line endings to LF for all text files, regardless of which
+# OS a contributor commits from. Prevents noisy diffs where every line
+# in a file appears "changed" purely because of CRLF vs LF differences.
+* text=auto eol=lf
+
+# Explicitly mark these as text so they're normalized even if Git's
+# built-in detection ever guesses wrong for a particular file.
+*.js text
+*.json text
+*.md text
+*.css text
+*.html text
+
+# Common lockfile — often auto-generated with OS-specific line endings;
+# ensures it stays diffable and consistent once package-lock.json is committed.
+package-lock.json text eol=lf

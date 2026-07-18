@@ -1,0 +1,22 @@
+# Dependencies — always reinstalled via package.json, never committed
+node_modules/
+
+# Secrets — never commit real environment values (see backend/.env.example
+# for the template that IS meant to be committed)
+.env
+.env.local
+.env.*.local
+
+# npm logs
+npm-debug.log*
+
+# OS-generated junk files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE folders (personal editor config, not project config)
+.vscode/
+.idea/
+
+# Logs
+*.log
