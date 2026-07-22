@@ -1,104 +1,549 @@
 # Campus Copilot AI
 
-An AI-powered academic workspace for college students. Not a chatbot —
-students paste academic content, choose a tool, and get a streamed,
-structured result they can copy or download.
+> **An AI-powered academic workspace for college students.**
+>
+> Rather than functioning as a general chatbot, Campus Copilot AI provides dedicated academic tools that transform study material into structured learning resources using an OpenAI-compatible Large Language Model.
 
-## What it does
+---
 
-Three tools, one workflow: paste content → pick a tool → get a streamed
-AI result.
+## Live Demo
 
-- **Smart Notes Summarizer** — summary, key concepts, exam points, revision checklist
-- **Concept Explainer** — beginner + college-level explanations, a real-world analogy, common mistakes, a quick recap
-- **Quiz Generator** — MCQs, short-answer questions, long-answer questions, an answer key
-
-## Architecture
+**Frontend**
 
 ```
-campus-copilot-ai/
-├── backend/     Express API — the only thing talking to the LLM provider
-└── frontend/    Static HTML/CSS/vanilla JS — no build step, no framework
+https://campus-copilot-frontend-l1jn.onrender.com/
 ```
 
-**Backend** (`backend/src/`)
-- `prompts/` — one prompt template per tool, plus a registry mapping tool name → template
-- `services/llmService.js` — the *only* file that knows how to talk to the OpenAI-compatible API
-- `routes/generateRoute.js` — single `POST /api/generate` endpoint, dispatches by `tool`
-- `middleware/` — request validation, security headers
-- `utils/` — SSE wire-format writer, logger
-- `config/env.js` — environment variable loading + validation, fails fast on misconfiguration
+**Backend Health Check**
 
-**Frontend** (`frontend/js/`)
-- `sse.js` — the *only* file that knows the streaming wire format
-- `generator.js`, `output.js`, `toolSelector.js` — UI logic, transport-agnostic
+```
+https://campus-copilot-ai-49j4.onrender.com/api/health
+```
 
-**Key architectural decisions:**
-- Single `POST /api/generate` endpoint (tool passed in the request body) rather than per-tool routes — adding tool #4 later means adding a prompt module, not a new route.
-- Stateless requests — no database, no sessions, no conversation history.
-- Server-Sent Events (SSE) for streaming — one-directional, no extra protocol needed.
-- Minimal dependencies: `express`, `cors`, `dotenv` on the backend; zero dependencies on the frontend.
+---
 
-## Running locally
+## Features
+
+- 📄 Smart Notes Summarizer
+- 💡 Concept Explainer
+- ❓ Quiz Generator
+- ⚡ Real-time AI response streaming using Server-Sent Events (SSE)
+- 📋 Copy generated responses
+- 📥 Download generated responses
+- 🔒 Secure backend proxy (API keys never exposed to the client)
+- 🐳 Dockerized backend
+- ☁️ Cloud deployment on Render
+- 🧩 Modular prompt architecture for easy feature expansion
+
+---
+
+## Screenshots
+
+### Home Page
+
+![Home Page](docs/screenshots/homepage.png)
+
+The main interface of Campus Copilot AI, featuring the three AI-powered academic tools, content input area, and streamed response panel.
+
+---
+
+### Smart Notes Summarizer
+
+![Smart Notes Summarizer](docs/screenshots/summarizer.png)
+
+Converts lengthy study material into concise summaries with key concepts, exam points, and revision checklists.
+
+---
+
+### Concept Explainer
+
+![Concept Explainer](docs/screenshots/explainer.png)
+
+Explains difficult topics using beginner-friendly and college-level explanations, real-world analogies, and common misconceptions.
+
+---
+
+### Quiz Generator
+
+![Quiz Generator](docs/screenshots/quiz.png)
+
+Generates multiple-choice, short-answer, and long-answer questions with answer keys for effective revision.
+
+---
+# Technology Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
 
 ### Backend
+
+- Node.js
+- Express.js
+
+### AI
+
+- OpenAI-Compatible API
+- Configurable model through environment variables
+
+### Deployment
+
+- Docker
+- Render
+
+### Development
+
+- Git
+- GitHub
+- Visual Studio Code
+
+---
+
+# What It Does
+
+Campus Copilot AI provides three specialized academic tools built around a single workflow:
+
+> **Paste study material → Select a tool → Receive a streamed AI-generated result**
+
+### Smart Notes Summarizer
+
+Transforms lengthy academic material into concise, structured summaries including:
+
+- Key concepts
+- Important points
+- Examination-focused highlights
+- Revision checklist
+
+---
+
+### Concept Explainer
+
+Explains difficult topics at multiple levels of depth, including:
+
+- Beginner-friendly explanation
+- College-level explanation
+- Real-world analogy
+- Common misconceptions
+- Quick recap
+
+---
+
+### Quiz Generator
+
+Generates revision material consisting of:
+
+- Multiple Choice Questions (MCQs)
+- Short Answer Questions
+- Long Answer Questions
+- Complete Answer Key
+
+---
+
+# Project Structure
+
+```text
+campus-copilot-ai/
+│
+├── backend/
+│
+│   ├── src/
+│   │
+│   ├── prompts/
+│   │   ├── summarizer.js
+│   │   ├── explainer.js
+│   │   ├── quiz.js
+│   │   └── registry.js
+│   │
+│   ├── services/
+│   │   └── llmService.js
+│   │
+│   ├── routes/
+│   │   └── generateRoute.js
+│   │
+│   ├── middleware/
+│   │
+│   ├── utils/
+│   │
+│   ├── config/
+│   │   └── env.js
+│   │
+│   └── server.js
+│
+├── frontend/
+│
+│   ├── css/
+│   ├── js/
+│   │   ├── generator.js
+│   │   ├── output.js
+│   │   ├── sse.js
+│   │   ├── toolSelector.js
+│   │   └── ...
+│   │
+│   └── index.html
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+```
+
+---
+
+# Architecture
+
+The project follows a modular client-server architecture.
+
+```text
+User
+   │
+   ▼
+Frontend (Static Site)
+   │
+HTTPS + SSE
+   │
+   ▼
+Backend (Express API)
+   │
+Prompt Templates
+   │
+LLM Service
+   │
+HTTPS
+   │
+   ▼
+OpenAI-Compatible API
+```
+
+---
+
+# Backend Architecture
+
+The backend is the only component responsible for communicating with the AI provider.
+
+### `prompts/`
+
+Contains one prompt template per academic tool along with a registry that maps tool names to prompt templates.
+
+---
+
+### `services/llmService.js`
+
+The only module responsible for communicating with the OpenAI-compatible API.
+
+Responsibilities include:
+
+- API communication
+- Streaming token processing
+- Request timeout handling
+
+---
+
+### `routes/generateRoute.js`
+
+Implements a single action endpoint:
+
+```
+POST /api/generate
+```
+
+Incoming requests are validated and dispatched to the appropriate prompt template.
+
+---
+
+### `middleware/`
+
+Contains middleware responsible for:
+
+- Request validation
+- Security headers
+- Error handling
+
+---
+
+### `utils/`
+
+Utility modules including:
+
+- SSE wire-format writer
+- Logger
+
+---
+
+### `config/env.js`
+
+Loads and validates environment variables during startup.
+
+The application fails fast if required configuration is missing.
+
+---
+
+# Frontend Architecture
+
+The frontend intentionally uses **vanilla JavaScript** with no framework or build step.
+
+### `sse.js`
+
+Handles the Server-Sent Events streaming protocol.
+
+---
+
+### `generator.js`
+
+Coordinates generation requests.
+
+---
+
+### `output.js`
+
+Responsible for:
+
+- Rendering streamed responses
+- Formatting headings and lists
+- Copy functionality
+- Download functionality
+
+---
+
+### `toolSelector.js`
+
+Handles academic tool selection and UI state.
+
+---
+
+# Key Architectural Decisions
+
+### Single Action Endpoint
+
+Instead of implementing one endpoint per AI tool, the backend exposes a single endpoint:
+
+```
+POST /api/generate
+```
+
+The selected tool is passed in the request body.
+
+This design allows new AI tools to be added by introducing a new prompt module rather than creating additional API routes.
+
+---
+
+### Stateless Architecture
+
+The application maintains:
+
+- No database
+- No user sessions
+- No conversation history
+
+Each request is processed independently.
+
+---
+
+### Prompt Separation
+
+Prompt templates are intentionally separated from application logic.
+
+This keeps prompt engineering independent from API communication and simplifies future maintenance.
+
+---
+
+### Server-Sent Events (SSE)
+
+Responses are streamed progressively to the frontend.
+
+Users begin reading generated content immediately rather than waiting for the entire response.
+
+---
+
+### Minimal Dependencies
+
+Backend:
+
+- express
+- cors
+- dotenv
+
+Frontend:
+
+- No external dependencies
+
+---
+
+# Running Locally
+
+## Backend
 
 ```bash
 cd backend
 npm install
-cp .env.example .env   # then fill in a real OPENAI_API_KEY
+cp .env.example .env
 npm run dev
 ```
 
-Backend runs at `http://localhost:5000`. Health check: `GET /api/health`.
+The backend runs at:
 
-### Frontend
+```
+http://localhost:5000
+```
+
+Health endpoint:
+
+```
+GET /api/health
+```
+
+---
+
+## Frontend
 
 ```bash
 cd frontend
 npx serve -l 5500
 ```
 
-Open `http://localhost:5500`. The frontend expects the backend's CORS
-`FRONTEND_ORIGIN` (in `backend/.env`) to match this URL.
+Open:
 
-### Running the backend in Docker
+```
+http://localhost:5500
+```
+
+Ensure that the backend's `FRONTEND_ORIGIN` environment variable matches the frontend URL.
+
+---
+
+# Running with Docker
 
 ```bash
 cd backend
+
 docker build -t campus-copilot-backend .
-docker run -p 5000:5000 --env-file .env campus-copilot-backend
+
+docker run \
+  -p 5000:5000 \
+  --env-file .env \
+  campus-copilot-backend
 ```
 
-See `backend/Dockerfile` for details on the image (single-stage, Alpine-based, non-root).
+The Docker image is:
 
-## API
+- Alpine-based
+- Single-stage
+- Runs as a non-root user
 
-**`POST /api/generate`**
+---
+
+# API
+
+## Generate Content
+
+**POST**
+
+```
+/api/generate
+```
+
+Request body:
 
 ```json
-{ "tool": "summarizer" | "explainer" | "quiz", "content": "..." }
+{
+  "tool": "summarizer",
+  "content": "..."
+}
 ```
 
-Returns a `text/event-stream` response: a series of `data: {"token": "..."}`
-events, followed by `data: {"done": true}`, or `data: {"error": "..."}` if
-generation fails partway through.
+Supported tool values:
 
-**`GET /api/health`** — liveness check, used by Docker/AWS App Runner.
+- `summarizer`
+- `explainer`
+- `quiz`
 
-## Environment variables
+Returns a streamed `text/event-stream` response consisting of:
 
-See `backend/.env.example` for the full list. `OPENAI_API_KEY` is required;
-the server refuses to start without it.
+```text
+data: {"token":"..."}
 
-## Status
+...
 
-Core application, Docker packaging, and production hardening (graceful
-shutdown, structured logging, security headers, request timeouts) are
-complete and verified locally. AWS App Runner deployment is in progress.
-Rate limiting is a known, intentionally deferred gap — see the security
-notes before exposing a deployed instance publicly.
+data: {"done":true}
+```
 
-## License
+If generation fails:
 
-MIT — see [LICENSE](LICENSE).
+```text
+data: {"error":"..."}
+```
+
+---
+
+## Health Check
+
+**GET**
+
+```
+/api/health
+```
+
+Used by Docker and cloud platforms for liveness checks.
+
+---
+
+# Environment Variables
+
+See:
+
+```
+backend/.env.example
+```
+
+Required:
+
+```env
+OPENAI_API_KEY=
+```
+
+Optional configuration includes:
+
+```env
+OPENAI_MODEL=
+OPENAI_BASE_URL=
+PORT=
+FRONTEND_ORIGIN=
+```
+
+The server refuses to start if required configuration is missing.
+
+---
+
+# Status
+
+The application is fully functional and deployed.
+
+### Completed
+
+- ✅ AI integration
+- ✅ Prompt engineering
+- ✅ Secure backend proxy
+- ✅ Server-Sent Events streaming
+- ✅ Docker containerization
+- ✅ Cloud deployment
+- ✅ Production security headers
+- ✅ Graceful shutdown
+- ✅ Structured logging
+- ✅ Request timeout handling
+
+### Planned
+
+- API rate limiting
+- GitHub Actions CI pipeline
+- User authentication
+- Study history
+- PDF upload support
+- OCR for handwritten notes
+
+---
+
+# License
+
+This project is licensed under the **MIT License**.
+
+See the `LICENSE` file for details.
