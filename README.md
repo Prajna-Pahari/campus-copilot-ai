@@ -41,7 +41,7 @@ https://campus-copilot-ai-49j4.onrender.com/api/health
 
 ### Home Page
 
-![Home Page](docs/screenshots/Homepage.png)
+![Home Page](docs/Screenshots/Homepage.png)
 
 The main interface of Campus Copilot AI, featuring the three AI-powered academic tools, content input area, and streamed response panel.
 
@@ -49,7 +49,7 @@ The main interface of Campus Copilot AI, featuring the three AI-powered academic
 
 ### Smart Notes Summarizer
 
-![Smart Notes Summarizer](docs/screenshots/Smart%20Notes%20Summarizer.png)
+![Smart Notes Summarizer](docs/Screenshots/Smart%20Notes%20Summarizer.png)
 
 Converts lengthy study material into concise summaries with key concepts, exam points, and revision checklists.
 
@@ -57,7 +57,7 @@ Converts lengthy study material into concise summaries with key concepts, exam p
 
 ### Concept Explainer
 
-![Concept Explainer](docs/screenshots/Concept%20Explainer.png)
+![Concept Explainer](docs/Screenshots/Concept%20Explainer.png)
 
 Explains difficult topics using beginner-friendly and college-level explanations, real-world analogies, and common misconceptions.
 
@@ -65,7 +65,7 @@ Explains difficult topics using beginner-friendly and college-level explanations
 
 ### Quiz Generator
 
-![Quiz Generator](docs/screenshots/Quiz%20Generator.png)
+![Quiz Generator](docs/Screenshots/Quiz%20Generator.png)
 
 Generates multiple-choice, short-answer, and long-answer questions with answer keys for effective revision.
 
