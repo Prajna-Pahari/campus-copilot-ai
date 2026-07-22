@@ -7,5 +7,5 @@
 // every JS file.
 
 const CONFIG = {
-  API_BASE_URL: "http://localhost:5000",
+  API_BASE_URL: "https://campus-copilot-ai-49j4.onrender.com",
 };
