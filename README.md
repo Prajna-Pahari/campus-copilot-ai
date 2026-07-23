@@ -547,4 +547,4 @@ The application is fully functional and deployed.
 
 This project is licensed under the **MIT License**.
 
-See the `LICENSE` file for details.
+See the [LICENSE](https://github.com/Prajna-Pahari/campus-copilot-ai/blob/main/LICENSE) file for details.
