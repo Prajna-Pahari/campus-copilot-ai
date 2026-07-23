@@ -370,45 +370,148 @@ Frontend:
 
 ---
 
-# Running Locally
+# Quick Start
 
-## Backend
+Follow these steps to run Campus Copilot AI on your local machine.
+
+## Prerequisites
+
+Make sure the following software is installed:
+
+- Node.js (v18 or later recommended)
+- npm
+- Git
+
+You will also need an OpenAI-compatible API key.
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Prajna-Pahari/campus-copilot-ai.git
+
+cd campus-copilot-ai
+```
+
+---
+
+## 2. Configure the Backend
+
+Navigate to the backend directory:
 
 ```bash
 cd backend
+```
+
+Install dependencies:
+
+```bash
 npm install
+```
+
+Create a `.env` file by copying the example configuration:
+
+```bash
 cp .env.example .env
+```
+
+Open the `.env` file and add your API key:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+
+# Optional
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_BASE_URL=https://api.openai.com/v1
+PORT=5000
+FRONTEND_ORIGIN=http://localhost:5500
+```
+
+---
+
+## 3. Start the Backend
+
+```bash
 npm run dev
 ```
 
-The backend runs at:
+The backend will start at:
 
 ```
 http://localhost:5000
 ```
 
-Health endpoint:
+You can verify that it is running by opening:
 
 ```
-GET /api/health
+http://localhost:5000/api/health
 ```
 
 ---
 
-## Frontend
+## 4. Run the Frontend
+
+Open a new terminal.
+
+Navigate to the frontend directory:
 
 ```bash
 cd frontend
+```
+
+Start a local web server:
+
+```bash
 npx serve -l 5500
 ```
 
-Open:
+The frontend will be available at:
 
 ```
 http://localhost:5500
 ```
 
-Ensure that the backend's `FRONTEND_ORIGIN` environment variable matches the frontend URL.
+---
+
+## 5. Start Using Campus Copilot AI
+
+1. Open `http://localhost:5500` in your browser.
+2. Select one of the available academic tools.
+3. Paste your study material.
+4. Click **Generate**.
+5. Watch the AI response stream in real time.
+
+---
+
+## Project Structure
+
+```text
+campus-copilot-ai/
+├── backend/
+├── frontend/
+├── docs/
+├── README.md
+└── LICENSE
+```
+
+---
+
+## Troubleshooting
+
+### Backend won't start
+
+- Ensure your `.env` file exists inside the `backend` directory.
+- Verify that `OPENAI_API_KEY` is correctly configured.
+
+### Frontend cannot connect to the backend
+
+- Ensure the backend is running on `http://localhost:5000`.
+- Verify that `FRONTEND_ORIGIN` in the backend `.env` matches your frontend URL.
+
+### Port already in use
+
+If port `5000` or `5500` is occupied, stop the conflicting process or update the port configuration accordingly.
 
 ---
 
